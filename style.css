@@ -1,0 +1,1172 @@
+/* ============================================================
+   PROPERTYGROUP — style.css
+   Responsive, mobile-first real estate website stylesheet
+   ============================================================ */
+
+/* ============================================================
+   1. CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   All color, spacing, and typography variables live here.
+   ============================================================ */
+
+:root {
+  /* --- PRIMARY BRAND COLORS --- */
+  --primary: #0B2D5E;          /* Tombol "Get in Touch" di navbar, latar footer */
+  --primary-dark: #071e42;     /* Hover state tombol primer, shadow */
+  --primary-light: #1a4a8a;    /* Highlight link aktif di navbar */
+
+  /* --- ACCENT / HIGHLIGHT --- */
+  --accent: #C8963E;           /* Warna emas aksen: teks "Real Estate" di hero, ikon logo */
+  --accent-light: #e8b86d;     /* Hover state aksen, border highlight kartu */
+  --accent-bg: #fdf6ec;        /* Latar badge About Us, latar ikon service */
+
+  /* --- NEUTRAL / TEXT --- */
+  --text-dark: #0f1c2e;        /* Heading utama (h1, h2) */
+  --text-body: #3a4a5e;        /* Teks paragraf umum */
+  --text-muted: #7a8ba0;       /* Label seksi, teks kecil, placeholder */
+  --text-white: #ffffff;       /* Teks di atas background gelap */
+
+  /* --- BACKGROUND --- */
+  --bg-white: #ffffff;         /* Latar section default */
+  --bg-light: #f4f6fa;         /* Latar section bergantian (services, gallery) */
+  --bg-dark: #0B2D5E;          /* Latar footer */
+  --bg-card: #ffffff;          /* Latar kartu listing dan service */
+
+  /* --- BORDERS & DIVIDERS --- */
+  --border: #dce3ed;           /* Border input form, pemisah kartu */
+  --border-light: #eaeff6;     /* Divider halus antar elemen */
+
+  /* --- OVERLAY / SHADOW --- */
+  --overlay-hero: rgba(7, 20, 40, 0.60);   /* Overlay gelap di atas foto hero */
+  --shadow-sm: 0 2px 8px rgba(11,45,94,0.08);   /* Shadow ringan pada kartu */
+  --shadow-md: 0 6px 24px rgba(11,45,94,0.12);  /* Shadow sedang pada hover */
+  --shadow-lg: 0 16px 48px rgba(11,45,94,0.18); /* Shadow besar modal/lightbox */
+
+  /* --- GRADIENT --- */
+  --gradient-primary: linear-gradient(135deg, #0B2D5E 0%, #1a4a8a 100%);  /* Hero CTA banner bawah */
+  --gradient-card: linear-gradient(180deg, transparent 40%, rgba(11,45,94,0.85) 100%); /* Overlay gambar listing */
+
+  /* --- TYPOGRAPHY --- */
+  --font-display: 'Playfair Display', Georgia, serif;   /* Font judul, heading besar */
+  --font-body: 'DM Sans', sans-serif;                   /* Font teks umum, UI */
+
+  /* --- SPACING --- */
+  --section-pad: 96px;         /* Padding atas-bawah section desktop */
+  --section-pad-mobile: 60px;  /* Padding atas-bawah section mobile */
+  --container-max: 1200px;     /* Lebar maksimum container */
+  --radius: 12px;              /* Border radius kartu dan tombol */
+  --radius-lg: 20px;           /* Border radius elemen besar */
+
+  /* --- TRANSITION --- */
+  --transition: 0.3s ease;     /* Transisi default hover/fokus */
+  --transition-slow: 0.6s ease; /* Transisi animasi reveal */
+}
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-body);
+  background: var(--bg-white);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ============================================================
+   3. LAYOUT UTILITIES
+   ============================================================ */
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: var(--section-pad) 0;
+}
+
+.bg-light { background: var(--bg-light); }
+
+/* ============================================================
+   4. TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+.section-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);               /* Warna label seksi kecil */
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 520px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-header .section-sub { margin: 0 auto; }
+
+.text-accent { color: var(--accent); }   /* Teks aksen emas (misal "Real Estate" di hero) */
+
+/* ============================================================
+   5. BUTTONS
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+/* Tombol primer biru — CTA utama */
+.btn-primary {
+  background: var(--primary);         /* Latar tombol primer */
+  color: var(--text-white);           /* Teks tombol primer */
+  box-shadow: 0 4px 16px rgba(11,45,94,0.25);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);    /* Hover tombol primer */
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Tombol outline putih — dipakai di hero di atas foto */
+.btn-outline-white {
+  background: transparent;
+  color: var(--text-white);           /* Teks tombol outline hero */
+  border: 2px solid rgba(255,255,255,0.7); /* Border tombol outline hero */
+}
+
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: var(--text-white);
+}
+
+.btn-full { width: 100%; justify-content: center; }
+
+/* ============================================================
+   6. SCROLL REVEAL ANIMATIONS
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.25s; }
+.fade-up:nth-child(3) { animation-delay: 0.4s; }
+.fade-up:nth-child(4) { animation-delay: 0.55s; }
+.fade-up:nth-child(5) { animation-delay: 0.7s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   7. NAVBAR
+   ============================================================ */
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--bg-white);        /* Latar navbar saat scroll */
+  border-bottom: 1px solid var(--border-light);
+  transition: box-shadow var(--transition);
+}
+
+.navbar.scrolled {
+  box-shadow: var(--shadow-md);       /* Shadow navbar saat di-scroll */
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 72px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-dark);            /* Teks logo "Property" */
+  letter-spacing: -0.02em;
+}
+
+.logo-text strong {
+  color: var(--primary);             /* Teks logo "Group" — biru primer */
+  font-weight: 700;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.nav-links a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-body);           /* Warna link navbar */
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--primary);             /* Hover link navbar */
+  background: rgba(11,45,94,0.06);
+}
+
+.nav-cta { margin-left: 8px; }
+
+/* Hamburger — mobile only */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 32px;
+  padding: 4px;
+  margin-left: auto;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--text-dark);      /* Warna garis hamburger */
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ============================================================
+   8. HERO SECTION
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  padding-top: 72px;   /* Offset navbar */
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-hero);   /* Overlay gelap foto hero */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: var(--text-white);          /* Semua teks di hero berwarna putih */
+  padding: 80px 24px;
+  max-width: var(--container-max);
+}
+
+.hero-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);              /* Tag kecil di atas judul hero */
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  max-width: 720px;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(255,255,255,0.82);     /* Subjudul hero, sedikit transparan */
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+/* Stats bar di hero */
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255,255,255,0.1);  /* Latar semi-transparan stats bar */
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  padding: 20px 28px;
+  width: fit-content;
+}
+
+.stat { text-align: center; }
+
+.stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);              /* Angka statistik di hero */
+  line-height: 1;
+}
+
+.stat span {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.72);     /* Label statistik di hero */
+  margin-top: 4px;
+  display: block;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.25); /* Garis pemisah antar statistik */
+  margin: 0 16px;
+}
+
+/* ============================================================
+   9. ABOUT SECTION
+   ============================================================ */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-img-main {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 4/5;
+}
+
+.about-img-main img { width: 100%; height: 100%; object-fit: cover; }
+
+.about-img-small {
+  position: absolute;
+  bottom: -28px;
+  right: -28px;
+  width: 48%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 4px solid var(--bg-white);  /* Border putih foto kecil about */
+  box-shadow: var(--shadow-md);
+}
+
+.about-img-small img { width: 100%; height: 100%; object-fit: cover; }
+
+.about-badge {
+  position: absolute;
+  top: 28px;
+  left: -20px;
+  background: var(--primary);         /* Latar badge tahun about */
+  color: var(--text-white);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.about-badge strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);               /* Angka tahun di badge about */
+}
+
+.about-badge span {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+.about-text { padding-left: 8px; }
+
+.about-desc {
+  color: var(--text-body);
+  margin-bottom: 28px;
+  line-height: 1.75;
+}
+
+.about-list { margin-bottom: 36px; }
+
+.about-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-light);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);          /* Background centang about list */
+  color: white;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   10. SERVICES SECTION
+   ============================================================ */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.service-card {
+  background: var(--bg-card);         /* Latar kartu service */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-primary); /* Garis aksen bawah kartu service */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-icon {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 64px;
+  background: var(--accent-bg);       /* Latar ikon kartu service */
+  border-radius: 16px;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--text-dark);            /* Judul kartu service */
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.service-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.service-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);              /* Warna link "Learn More" di kartu service */
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.service-link:hover { color: var(--accent); gap: 8px; }
+
+/* ============================================================
+   11. PROPERTY LISTINGS
+   ============================================================ */
+
+/* Tab filter */
+.listing-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.tab-btn {
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);           /* Teks tombol tab tidak aktif */
+  border: 1.5px solid var(--border);
+  background: var(--bg-white);
+  transition: var(--transition);
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+  background: var(--primary);         /* Latar tombol tab aktif */
+  color: var(--text-white);           /* Teks tombol tab aktif */
+  border-color: var(--primary);
+}
+
+/* Listings grid */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  min-height: 300px;
+}
+
+.listing-card {
+  background: var(--bg-card);         /* Latar kartu listing */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.listing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+}
+
+.listing-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.listing-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.listing-card:hover .listing-img img { transform: scale(1.06); }
+
+.listing-badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: var(--primary);         /* Latar badge kategori listing */
+  color: var(--text-white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 100px;
+}
+
+.listing-type-land .listing-badge {
+  background: #2e7d32;                /* Badge khusus kategori Land */
+}
+
+.listing-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+
+.listing-price {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);               /* Harga properti listing */
+  margin-bottom: 6px;
+}
+
+.listing-name {
+  font-weight: 600;
+  color: var(--text-dark);            /* Nama/judul properti */
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.listing-loc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.listing-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+}
+
+.listing-meta span { display: flex; align-items: center; gap: 4px; }
+
+.listings-cta { text-align: center; margin-top: 48px; }
+
+/* ============================================================
+   12. GALLERY SECTION
+   ============================================================ */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
+  gap: 16px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item.wide { grid-column: span 2; }
+.gallery-item.tall { grid-row: span 2; }
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img { transform: scale(1.08); }
+
+.gallery-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-card);   /* Gradient overlay foto gallery */
+  opacity: 0;
+  transition: var(--transition);
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+.gallery-item-overlay span {
+  color: var(--text-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.92);       /* Latar gelap lightbox */
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  color: var(--text-white);           /* Tombol navigasi lightbox */
+  font-size: 1.8rem;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.lightbox-close { top: 20px; right: 20px; font-size: 1.2rem; }
+.lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: var(--accent);          /* Hover tombol lightbox */
+}
+
+/* ============================================================
+   13. TESTIMONIALS SECTION
+   ============================================================ */
+
+.testimonials { background: var(--gradient-primary); } /* Latar biru gradient seksi testimonial */
+
+.testimonials .section-label { color: var(--accent); }
+
+.testimonials .section-title { color: var(--text-white); }
+
+.testimonials .section-sub { color: rgba(255,255,255,0.7); }
+
+.testimonials-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card {
+  display: none;
+  background: rgba(255,255,255,0.1);  /* Latar semi-transparan kartu testimoni */
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+
+.testimonial-card.active { display: block; }
+
+.testimonial-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-white);           /* Teks kutipan testimoni */
+  line-height: 1.75;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+
+.testimonial-quote::before { content: '"'; font-size: 2rem; color: var(--accent); line-height: 0; vertical-align: -0.5rem; margin-right: 4px; }
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.testimonial-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);    /* Border avatar testimoni */
+}
+
+.testimonial-name {
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 0.95rem;
+}
+
+.testimonial-role {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.testimonial-stars {
+  color: var(--accent);               /* Warna bintang rating */
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+/* Dots navigation */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);  /* Dot slider tidak aktif */
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dot.active {
+  background: var(--accent);          /* Dot slider aktif */
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* ============================================================
+   14. CONTACT SECTION
+   ============================================================ */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.contact-sub {
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  line-height: 1.75;
+}
+
+.contact-details { display: flex; flex-direction: column; gap: 20px; }
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-light);        /* Latar item kontak */
+  border-radius: var(--radius);
+}
+
+.contact-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-bg);       /* Latar ikon kontak */
+  border-radius: 10px;
+}
+
+.contact-item strong {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.contact-item p { font-size: 0.9rem; color: var(--text-body); }
+
+/* Form */
+.contact-form-wrap {
+  background: var(--bg-white);
+  border: 1px solid var(--border);    /* Border box form kontak */
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group { display: flex; flex-direction: column; margin-bottom: 20px; }
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);            /* Label form input */
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);  /* Border input form */
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  background: var(--bg-white);
+  transition: var(--transition);
+  outline: none;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);       /* Border input saat fokus */
+  box-shadow: 0 0 0 3px rgba(11,45,94,0.1); /* Ring fokus input */
+}
+
+.form-success {
+  display: none;
+  margin-top: 16px;
+  text-align: center;
+  color: #2e7d32;                     /* Warna pesan sukses form */
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   15. FOOTER
+   ============================================================ */
+
+.footer {
+  background: var(--bg-dark);         /* Latar footer biru gelap */
+  padding: 72px 0 0;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-brand .logo-text { color: var(--text-white); }
+
+.footer-brand p {
+  margin-top: 14px;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.55);      /* Teks deskripsi footer */
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.footer-links h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);               /* Heading kolom footer */
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  display: block;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.60);      /* Link footer */
+  padding: 5px 0;
+  transition: var(--transition);
+}
+
+.footer-links a:hover { color: var(--text-white); padding-left: 4px; }
+
+.footer-bottom {
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);       /* Copyright text footer bawah */
+}
+
+/* ============================================================
+   16. BACK TO TOP BUTTON
+   ============================================================ */
+
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--primary);         /* Latar tombol "kembali ke atas" */
+  color: var(--text-white);           /* Ikon panah tombol back-to-top */
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.back-to-top:hover {
+  background: var(--accent);         /* Hover tombol back-to-top */
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   17. RESPONSIVE — TABLET (≤ 900px)
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  :root {
+    --section-pad: 72px;
+  }
+
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+
+  /* Mobile nav drawer */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 72px; left: 0; right: 0;
+    background: var(--bg-white);      /* Latar drawer menu mobile */
+    padding: 20px 24px 32px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    gap: 4px;
+    z-index: 999;
+  }
+
+  .nav-links.open a {
+    padding: 14px 16px;
+    font-size: 1rem;
+    border-radius: var(--radius);
+  }
+
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-visual { max-width: 500px; margin: 0 auto; }
+  .about-img-small { display: none; }
+  .about-badge { left: 0; }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .listings-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+  }
+
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item.tall { grid-row: span 1; }
+
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-brand { grid-column: span 2; }
+}
+
+/* ============================================================
+   18. RESPONSIVE — MOBILE (≤ 600px)
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+  :root {
+    --section-pad: var(--section-pad-mobile);
+  }
+
+  .hero-title { font-size: 2.2rem; }
+
+  .hero-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .stat-divider { width: 48px; height: 1px; margin: 0; }
+
+  .services-grid { grid-template-columns: 1fr; }
+
+  .listings-grid { grid-template-columns: 1fr; }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 160px;
+  }
+
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item.tall { grid-row: span 1; }
+
+  .testimonial-card { padding: 28px 20px; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .contact-form-wrap { padding: 28px 20px; }
+
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer-brand { grid-column: span 1; }
+
+  .back-to-top { bottom: 16px; right: 16px; width: 42px; height: 42px; }
+}
